@@ -7,6 +7,9 @@
  */
 
 import http from "node:http";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { startMockApi, KEY } from "./mock_api.js";
 import { runProbe, normBase, pickModel, estimateTokens, diagnose, explainPhase, nearestModelName } from "../lib/index.js";
 
@@ -43,6 +46,22 @@ const mock = await startMockApi(0);
 try {
 	// ---------------------------------------------------------------- pure
 	section("纯函数");
+
+	// The provider list must exist in exactly one place. A host-side copy used to
+	// sit here with 10 entries and dated model IDs (claude-sonnet-4-20250514,
+	// gemini-2.5-flash, qwen-plus, …) that nothing read except a `presets: 10`
+	// count contradicting the 38 the panel shows — and it broke the one rule the
+	// client list was rebuilt to satisfy. Guard the removal, not just the intent.
+	const hostSrc = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "lib", "index.js"), "utf8");
+	check("宿主端不再导出一份服务商列表", !/\bexport\s+const\s+PRESETS\b/.test(hostSrc));
+	check("宿主端没有第二份 PRESETS 字面量", (hostSrc.match(/\bconst\s+PRESETS\s*=\s*\[/g) ?? []).length === 0);
+	// Any `model: "..."` literal in host code is a vendor-controlled string that
+	// will rot. Probe paths take the model as an argument, so a literal here can
+	// only ever be a stale default.
+	const modelLiterals = [...hostSrc.matchAll(/\bmodel:\s*"([^"]+)"/g)].map((m) => m[1]);
+	check("宿主端不硬编码任何模型名", modelLiterals.length === 0, modelLiterals.join(", "));
+	check("health 接口不再报告过时的预设数", !/presets:\s*PRESETS\.length/.test(hostSrc));
+
 	check("normBase 裸域名补 /v1", normBase("api.openai.com") === "https://api.openai.com/v1", normBase("api.openai.com"));
 	check("normBase 保留显式路径", normBase("https://x.cn/compatible-mode/v1") === "https://x.cn/compatible-mode/v1");
 	check("normBase 去掉尾斜杠", normBase("https://x.cn/v1/") === "https://x.cn/v1");
