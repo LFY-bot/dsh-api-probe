@@ -37,13 +37,22 @@ MIT licensed. Runs inside DeepSeek Harness (≥ 0.2.0-rc.2) as a plugin.
 
 ![面板](assets/panel-form.png)
 
+**测完三个指标一目了然，失败时直接告诉你请求发出去没有。**
+
+> 卡在第四步：115 字节的请求正文已经发出去了，服务商连 HTTP 状态行都没回。
+
+![检测结果](assets/report-result.png)
+
 **Key 有效但被限流时，它会直说是限流，不会含糊成「调不动模型」。**
 
 ![失败诊断](assets/report-failure.png)
 
-**三个指标 + 每一轮失败的原文，都在同一屏里。**
+**三轮全被掐时，指标显示「—」而不是编一个数，失败原文也一并列出。**
 
-![指标与失败记录](assets/report-metrics.png)
+![全失败](assets/report-metrics.png)
+
+> 上面几张是在**免费额度**的服务商上测的，成功率没跑满——真实情况就是这样。
+> 指标不会为了好看去修饰，缺数据就写「—」。
 
 ---
 
