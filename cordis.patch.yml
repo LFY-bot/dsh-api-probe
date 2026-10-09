@@ -1,0 +1,6 @@
+# bundle patch for dsh-api-probe: inserts its plugin row into the profile
+# roster. Applied automatically because the profile lists this package under
+# `dsh.profile.bundles`.
+- insert:
+    - id: api-probe
+      name: 'dsh-api-probe'

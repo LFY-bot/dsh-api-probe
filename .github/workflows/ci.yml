@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['20', '24']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 语法检查
+        run: |
+          node --check lib/index.js
+          node --check lib/client.js
+          node --check tests/check_providers.mjs
+
+      # 三个套件缺一不可。只跑一个曾经导致 19 条断言静默失效而套件照样报绿，
+      # 详见 CONTRIBUTING.md。
+      - name: 探测逻辑与指标口径（run_tests.js）
+        run: node tests/run_tests.js
+
+      - name: 界面数据与文案契约（run_client_tests.mjs）
+        run: node tests/run_client_tests.mjs
+
+      - name: 路由与安全栅栏（run_route_tests.js）
+        run: node tests/run_route_tests.js
+
+      - name: 供应商预设结构校验（离线）
+        run: node tests/check_providers.mjs
+
+  hygiene:
+    name: 仓库卫生
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 本机路径一旦进库就会泄露用户名和目录结构，且对任何其他人都是错的。
+      - name: 不含本机绝对路径
+        run: |
+          if grep -rnE '[A-Za-z]:[/\\](Users|Documents and Settings)' \
+               --include='*.js' --include='*.mjs' --include='*.bat' --include='*.md' \
+               . ; then
+            echo "::error::检测到本机绝对路径，请改用相对路径或环境变量"
+            exit 1
+          fi
+          echo "无本机绝对路径"
+
+      # 预设里不允许出现模型名：模型 ID 会下架，且各家不通用。
+      - name: 预设不含硬编码模型名
+        run: |
+          if grep -nE 'hints: \[[^]]' lib/client.js ; then
+            echo "::error::预设里出现了非空 hints，模型名应由 /models 决定"
+            exit 1
+          fi
+          echo "预设未硬编码模型名"

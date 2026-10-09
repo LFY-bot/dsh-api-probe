@@ -1,0 +1,25 @@
+# git 会把它们规范成 LF 入库，在检出时还原成下面的样子。
+# 这样仓库里没有 CRLF 噪音，而 Windows 上的批处理拿到的是 CRLF。
+
+* text=auto
+
+# cmd.exe 对 LF-only 的 .bat 有已知的坑：标签和 goto 会错位，
+# 尤其是多行 for 块里跳 :eof。批处理必须以 CRLF 检出。
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 其余保持 LF
+*.js   text eol=lf
+*.mjs  text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.md   text eol=lf
+*.svg  text eol=lf
+.gitignore   text eol=lf
+.gitattributes text eol=lf
+
+# 二进制，不做换行转换
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.zip  binary

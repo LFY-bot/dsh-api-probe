@@ -1,0 +1,90 @@
+name: 报告问题
+description: 报告一个可复现的缺陷
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        谢谢你花时间报告。
+        **请不要在这里填写任何真实的 API Key** —— 即使是打码的也不要贴。
+        如果确实需要复现，请用一个随时可吊销、且额度为 0 的测试 Key。
+
+  - type: input
+    id: version
+    attributes:
+      label: 插件版本
+      placeholder: "面板「关于」里显示的版本号"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: host
+    attributes:
+      label: DeepSeek Harness 版本
+      options: [其他, 0.2.0-rc.2, 更早, 更晚]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: vendor
+    attributes:
+      label: 出问题的服务商
+      options:
+        - OpenAI 兼容（多数中转站）
+        - Anthropic 原生
+        - Google Gemini 原生
+        - 本地模型（Ollama / LM Studio / one-api）
+        - 其它（见下方说明）
+        - 不确定
+    validations:
+      required: true
+
+  - type: input
+    id: base
+    attributes:
+      label: API 地址
+      description: 地址可以贴，Key 不行。敏感的话请换成 `api.example.com/v1` 这样的写法。
+      placeholder: "https://api.example.com/v1"
+
+  - type: textarea
+    id: expect
+    attributes:
+      label: 你期望看到什么
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际看到了什么
+      description: 面板上的完整文案最有用。「复制报告」的内容也可以，但请先确认里面没有 Key。
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 在服务商下拉里选「……」
+        2. 地址填「……」，Key 填一个无效的占位值
+        3. 点「开始检测」
+        4. 看到「……」
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 补充确认
+      options:
+        - label: 我确认过 Key 没有出现在这个 Issue 的任何位置
+          required: true
+        - label: 这是第三方服务商的问题（如果不确定，也请勾上）
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他
+      description: 代理设置、网络环境等你觉得相关的因素

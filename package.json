@@ -1,0 +1,69 @@
+{
+  "name": "dsh-api-probe",
+  "description": "API 体检 — 贴一个 API 地址和 Key，30 秒内告诉你它能不能用、AI 模型响应快不快。",
+  "version": "1.0.0",
+  "private": true,
+  "icon": "./icon.svg",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./icon.svg": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "openai-compatible",
+    "api",
+    "health-check",
+    "benchmark",
+    "latency"
+  ],
+  "scripts": {
+    "test": "node tests/run_tests.js && node tests/run_client_tests.mjs && node tests/run_route_tests.js",
+    "test:probe": "node tests/run_tests.js",
+    "test:client": "node tests/run_client_tests.mjs",
+    "test:route": "node tests/run_route_tests.js",
+    "check:providers": "node tests/check_providers.mjs",
+    "check:providers:online": "node tests/check_providers.mjs --online"
+  },
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.2.0-rc.2"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-layout"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.2.0-rc.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/__GITHUB_USER__/dsh-api-probe.git"
+  },
+  "homepage": "https://github.com/__GITHUB_USER__/dsh-api-probe#readme",
+  "bugs": {
+    "url": "https://github.com/__GITHUB_USER__/dsh-api-probe/issues"
+  },
+  "license": "MIT"
+}
