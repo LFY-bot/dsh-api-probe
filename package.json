@@ -59,11 +59,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/__GITHUB_USER__/dsh-api-probe.git"
+    "url": "https://github.com/LFY-bot/dsh-api-probe.git"
   },
-  "homepage": "https://github.com/__GITHUB_USER__/dsh-api-probe#readme",
+  "homepage": "https://github.com/LFY-bot/dsh-api-probe#readme",
   "bugs": {
-    "url": "https://github.com/__GITHUB_USER__/dsh-api-probe/issues"
+    "url": "https://github.com/LFY-bot/dsh-api-probe/issues"
   },
   "license": "MIT"
 }
