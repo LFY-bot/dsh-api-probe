@@ -36,7 +36,7 @@
   },
   "dsh": {
     "engines": {
-      "dsh": ">=0.2.0-rc.2"
+      "dsh": ">=0.2.0-rc.2 || >=0.2.1-0 || >=0.3.0-0"
     },
     "bundle": {
       "patch": "./cordis.patch.yml"
@@ -52,7 +52,7 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh": ">=0.2.0-rc.2"
+    "@deepseek-ai/dsh": ">=0.2.0-rc.2 || >=0.2.1-0 || >=0.3.0-0"
   },
   "engines": {
     "node": ">=20"
