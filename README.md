@@ -31,6 +31,22 @@ MIT licensed. Runs inside DeepSeek Harness (≥ 0.2.0-rc.2) as a plugin.
 
 ---
 
+## 界面
+
+**填好地址和 Key，点一下开始检测。**
+
+![面板](assets/panel-form.png)
+
+**Key 有效但被限流时，它会直说是限流，不会含糊成「调不动模型」。**
+
+![失败诊断](assets/report-failure.png)
+
+**三个指标 + 每一轮失败的原文，都在同一屏里。**
+
+![指标与失败记录](assets/report-metrics.png)
+
+---
+
 ## 它给你什么
 
 一句话结论，比如：
