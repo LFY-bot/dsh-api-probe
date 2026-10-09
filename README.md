@@ -248,4 +248,4 @@ socket 地址（`127/8`、`::1`、IPv4-mapped）+ Host 头 + `sec-fetch-site` / 
 
 ## License
 
-[MIT](LICENSE) © dsh-api-probe contributors
+[MIT](LICENSE) © 2026 LFY-bot
