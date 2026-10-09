@@ -195,6 +195,28 @@ try {
 		check("结论提到慢", result.verdict.level !== "good" && result.verdict.reasons.join(" ").includes("等"), JSON.stringify(result.verdict));
 	}
 
+	// ------------------------------------------------------- coalesced stream
+	section("整块返回的响应");
+	{
+		// Same text as the fast model, but the whole answer lands in one payload.
+		// Measuring tokens / (total - ttft) there divides by a window of a few
+		// milliseconds and produces thousands of "字/秒" — a number no model
+		// generated, which the panel then graded "很好". It must report nothing
+		// instead of reporting a measurement artefact.
+		const { events, result } = await silentProbe({ base: mock.base, model: "burst-model", rounds: 2 });
+		const sample = events.find((e) => e.type === "sample");
+		check("探测本身成功", result.ok === true, result.verdict.headline);
+		check("样本标记为非流式", sample.streamed === false, String(sample.streamed));
+		check("只收到一个内容块", sample.deltaCount === 1, String(sample.deltaCount));
+		check("输出速度为 null（不编造）", sample.tps === null, String(sample.tps));
+		check("多轮后的 tps 中位数也是 null", result.metrics.tpsMedian === null, String(result.metrics.tpsMedian));
+		check("输出速度评级为 none", result.metrics.tpsGrade === "none", result.metrics.tpsGrade);
+		check("首字延迟仍然有效", typeof result.metrics.ttftMedian === "number" && result.metrics.ttftMedian > 0, String(result.metrics.ttftMedian));
+		check("结论不会因为缺速度而崩", Array.isArray(result.verdict.reasons) && result.verdict.reasons.length > 0, JSON.stringify(result.verdict.reasons));
+		check("结论明说速度没测到", result.verdict.reasons.join(" ").includes("测不出"), JSON.stringify(result.verdict.reasons));
+		check("不会误判为好用", result.verdict.level !== "good", result.verdict.level);
+	}
+
 	// ---------------------------------------------------------------- flaky
 	section("不稳定线路");
 	{

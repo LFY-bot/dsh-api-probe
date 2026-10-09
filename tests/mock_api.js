@@ -111,6 +111,25 @@ export function startMockApi(port = 0) {
 			const perToken = isSlow ? 90 : 6;
 			const text = "我是一个用于测速的假模型。";
 
+			// A gateway that buffers, or a vendor that effectively answers
+			// non-streaming: identical content, delivered in one piece. Used to
+			// prove that output speed is reported as unmeasured rather than as an
+			// absurd number.
+			if (model === "burst-model") {
+				await sleep(ttft);
+				res.writeHead(200, { "content-type": "text/event-stream; charset=utf-8" });
+				res.write("data: " + JSON.stringify({ choices: [{ index: 0, delta: { role: "assistant" } }] }) + "\n\n");
+				res.write("data: " + JSON.stringify({ choices: [{ index: 0, delta: { content: text } }] }) + "\n\n");
+				res.write(
+					"data: " +
+						JSON.stringify({ choices: [{ index: 0, delta: {}, finish_reason: "stop" }], usage: { completion_tokens: 14 } }) +
+						"\n\n",
+				);
+				res.write("data: [DONE]\n\n");
+				res.end();
+				return;
+			}
+
 			await sleep(ttft);
 			if (body.stream === false) {
 				res.writeHead(200, { "content-type": "application/json" });
