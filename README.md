@@ -24,7 +24,7 @@ work, is it fast, how fast, how reliable.
 - Runs entirely on your machine. Your key is never written to disk or sent anywhere
   except the endpoint you are testing.
 
-Three test suites, 216 checks, CI on Node 20 and 24 across Linux and Windows.
+Three test suites, 230 checks, CI on Node 20 and 24 across Linux and Windows.
 MIT licensed. Runs inside DeepSeek Harness (≥ 0.2.0-rc.2) as a plugin.
 
 </details>
@@ -202,7 +202,7 @@ dsh-api-probe/
 ├─ lib/client.js     前端：React 面板（手写 createElement，无构建步骤）
 ├─ cordis.patch.yml  让插件出现在 Web 端插件名单里
 ├─ tests/
-│  ├─ run_tests.js          115 项：探测逻辑、指标口径、各类故障
+│  ├─ run_tests.js          129 项：探测逻辑、指标口径、各类故障
 │  ├─ run_client_tests.mjs   75 项：界面数据契约与文案契约
 │  ├─ run_route_tests.js     26 项：HTTP 路由、安全栅栏、NDJSON 流
 │  ├─ mock_api.js            测试用假服务端

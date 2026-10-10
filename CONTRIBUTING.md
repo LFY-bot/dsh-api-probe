@@ -8,7 +8,7 @@
 第三方依赖，`node_modules` 是空的，测试直接用 Node 内置能力跑。
 
 ```bash
-node tests/run_tests.js          # 115 项：探测逻辑、指标口径、各类故障
+node tests/run_tests.js          # 129 项：探测逻辑、指标口径、各类故障
 node tests/run_client_tests.mjs  #  75 项：界面数据契约与文案契约
 node tests/run_route_tests.js    #  26 项：HTTP 路由、安全栅栏、NDJSON 流
 node tests/check_providers.mjs   # 供应商地址结构校验（加 --online 逐个探测）

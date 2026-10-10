@@ -19,7 +19,7 @@
   `/models` 接口取真实列表，并以可点芯片呈现。
 - **拼写提示**：填的模型名不在对方列表里时给出最接近的一个，**只警告不中断**。
 - **HTTP 代理支持**（高级设置，可选）。
-- **三套测试共 216 项**：`run_tests.js` 115 / `run_client_tests.mjs` 75 /
+- **三套测试共 230 项**：`run_tests.js` 129 / `run_client_tests.mjs` 75 /
   `run_route_tests.js` 26。
 - **`tests/check_providers.mjs`**：批量核对全部预设地址，在线模式逐个探测，
   离线模式只做结构校验。
