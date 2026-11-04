@@ -1,5 +1,9 @@
 # API 体检（DeepSeek Harness 插件）
 
+[![npm version](https://img.shields.io/npm/v/dsh-api-probe?label=npm)](https://www.npmjs.com/package/dsh-api-probe)
+[![CI](https://img.shields.io/github/actions/workflow/status/LFY-bot/dsh-api-probe/ci.yml?label=tests%20230)](https://github.com/LFY-bot/dsh-api-probe/actions)
+[![license](https://img.shields.io/npm/l/dsh-api-probe)](LICENSE)
+
 拿到一个陌生的 API 地址和 Key，不知道它到底能不能用、快不快？
 装上这个插件，在 Harness 左侧栏点一下 **「API 体检」**，填两项，点一下按钮，30 秒给你答案。
 
@@ -107,6 +111,15 @@ MIT licensed. Runs inside DeepSeek Harness (≥ 0.2.0-rc.2) as a plugin.
 ---
 
 ## 安装
+
+### npm（推荐 — 预构建包，免构建授权）
+
+```bash
+dsh plugin --profile desktop add dsh-api-probe
+```
+
+包已发布到 npm（[dsh-api-probe](https://www.npmjs.com/package/dsh-api-probe)），
+安装走预构建产物，不触发 `allowBuilds` 构建审批。
 
 ### Windows（图形化，不需要敲命令）
 

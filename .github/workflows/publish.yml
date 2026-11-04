@@ -1,0 +1,36 @@
+name: publish-npm
+
+# 发布 GitHub Release 时自动把包推到 npm。
+# 用 Trusted Publishing（OIDC），不需要在仓库里存 NPM_TOKEN：
+# 首次发布前在 npmjs.com 的包设置里把 GitHub 仓库加为 trusted publisher，
+# 之后每次 release 都会自动 publish --provenance。
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: npm publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+
+      # 本插件零第三方依赖，装不装都行；跑测试是发布前的最后一道闸。
+      - name: 测试（三套件）
+        run: |
+          node tests/run_tests.js
+          node tests/run_client_tests.mjs
+          node tests/run_route_tests.js
+
+      - name: 发布到 npm（带 provenance）
+        run: npm publish --provenance --access public
