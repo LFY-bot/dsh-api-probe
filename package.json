@@ -1,7 +1,7 @@
 {
   "name": "dsh-api-probe",
   "description": "API 体检 — 贴一个 API 地址和 Key，30 秒内告诉你它能不能用、AI 模型响应快不快。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "icon": "./icon.svg",
   "type": "module",
